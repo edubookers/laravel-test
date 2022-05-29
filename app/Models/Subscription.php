@@ -29,6 +29,19 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'price',
+    ];
+
+    /**
+     * @return MorphOne
+     */
     public function transaction(): MorphOne {
         return $this->morphOne(Transaction::class,'transactionable');
     }
