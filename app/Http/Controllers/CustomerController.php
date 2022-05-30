@@ -7,7 +7,7 @@ use App\Http\Resources\CustomerResource;
 use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
 
-class UserController
+class CustomerController
 {
     private CustomerService $customerService;
 
@@ -18,8 +18,8 @@ class UserController
 
     public function create(CreateCustomer $request): JsonResponse
     {
-        if ($user = $this->customerService->create($request->only(['email', 'first_name', 'last_name']))) {
-            return response()->json(CustomerResource::make($user), 201);
+        if ($this->customerService->create($request->only(['email', 'first_name', 'last_name', 'password']))) {
+            return response()->json('', 204);
         }
 
         return response()->json('Server error', 500);

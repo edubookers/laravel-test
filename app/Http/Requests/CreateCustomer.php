@@ -11,7 +11,7 @@ class CreateCustomer extends FormRequest {
      * @return bool
      */
     public function authorize() {
-        return false;
+        return true;
     }
 
     /**
@@ -21,13 +21,11 @@ class CreateCustomer extends FormRequest {
      */
     public function rules() {
         return [
-            [
-                'email'       => 'required|email',
+                'email'       => 'required|email|unique:users',
                 'first_name'  => 'required|max:20',
-                'last_name'   => 'max:20|nullable',
+                'last_name'   => 'required|max:20',
                 'password'    => 'required|min:8',
                 'password_re' => 'same:password'
-            ]
         ];
     }
 }

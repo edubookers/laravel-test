@@ -7,6 +7,14 @@ use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
+    protected array $payload = [
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'email' => 'john.doe@example.com',
+        'password' => '123123123',
+        'password_re' => '123123123'
+    ];
+
     /**
      * Customer registration test
      *
@@ -14,11 +22,7 @@ class CustomerTest extends TestCase
      */
     public function test_register_customer_returns_a_successful_response()
     {
-        $response = $this->postJson('/api/customer', [
-            'first_name' => 'John',
-            'last_name'  => 'Doe',
-            'email'      => 'john.doe@example.com'
-        ]);
+        $response = $this->postJson('/api/customer', $this->payload);
 
         $response->assertStatus(204);
     }
@@ -30,13 +34,10 @@ class CustomerTest extends TestCase
      */
     public function test_register_customer_validation()
     {
-        $response = $this->postJson('/api/customer', [
-            'first_name' => 'Jonny',
-            'last_name'  => 'Walker',
-            'email'      => 'jonny.walker@example.com'
-        ]);
+        $this->postJson('/api/customer', $this->payload);
+        $response = $this->postJson('/api/customer', $this->payload);
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['email' => 'The email is already in use.']);
+        $response->assertJsonValidationErrors(['email' => 'The email has already been taken.']);
     }
 }
