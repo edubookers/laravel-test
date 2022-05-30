@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCustomer;
-use App\Http\Resources\CustomerResource;
 use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
 
-class CustomerController
+class CustomerController extends Controller
 {
     private CustomerService $customerService;
 

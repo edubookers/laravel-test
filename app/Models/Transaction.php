@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Enums\SubscriptionStatuses;
+use App\Http\Enums\TransactionStatuses;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +39,11 @@ use Illuminate\Support\Carbon;
 class Transaction extends Model
 {
     use HasFactory;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
 
     /**
      * The attributes that are mass assignable.

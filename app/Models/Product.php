@@ -42,6 +42,11 @@ class Product extends Model
         'price',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /**
      * @return MorphOne
      */
@@ -49,4 +54,5 @@ class Product extends Model
     {
         return $this->morphOne(Transaction::class, 'transactionable');
     }
+
 }

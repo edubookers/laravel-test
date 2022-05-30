@@ -17,6 +17,11 @@ class ProductTest extends TestCase
         $response = $this->getJson('/api/product');
 
         $response->assertStatus(200);
+        $response->assertJsonStructure(
+            [
+                'products'
+            ]
+        );
         $response->assertExactJson(
             [
                 'products' => [
