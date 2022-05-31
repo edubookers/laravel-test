@@ -14,7 +14,6 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
             $table->string('product_type');
             $table->foreignId('user_id');
             $table->unsignedBigInteger('product_id');

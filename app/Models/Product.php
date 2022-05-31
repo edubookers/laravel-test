@@ -52,7 +52,7 @@ class Product extends Model
      */
     public function transaction(): MorphOne
     {
-        return $this->morphOne(Transaction::class, 'transactionable');
+        return $this->morphOne(Transaction::class, 'transactionable','product_type','product_id');
     }
 
 }

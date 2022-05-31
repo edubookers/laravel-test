@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
-use App\Services\PurchaseService;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,10 @@ Route::post('customer', [CustomerController::class, 'create']);
 Route::get('product', [ProductController::class, 'get']);
 
 Route::prefix('purchase')->middleware('auth:sanctum')->group(function () {
-    Route::get('subscription', [PurchaseService::class, 'getSubscriptions']);
-    Route::get('product', [PurchaseService::class, 'getProducts']);
+    Route::get('subscription', [PurchaseController::class, 'getSubscriptions']);
+    Route::get('product', [PurchaseController::class, 'getProducts']);
+    Route::post('subscription/{subscriptionId}', [PurchaseController::class, 'purchaseSubscription']);
+    Route::post('product/{productId}', [PurchaseController::class, 'purchaseProduct']);
 });
 
+Route::post('login', [LoginController::class, 'login']);

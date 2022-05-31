@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Subscription;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory()->count(20)->create();
+        Product::factory()->count(5)->create();
+        Subscription::factory()->count(5)->create();
     }
 }

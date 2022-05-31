@@ -55,6 +55,7 @@ class Transaction extends Model
         'user_id',
         'product_type',
         'product_id',
+        'specs'
     ];
 
     /**
