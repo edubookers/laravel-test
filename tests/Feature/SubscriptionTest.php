@@ -2,11 +2,28 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Traits\WithAuth;
 use Tests\TestCase;
 
 class SubscriptionTest extends TestCase
 {
+    use WithAuth;
+
+    /**
+     * Customer registration test
+     *
+     * @return void
+     */
+    public function test_purchase_subscription_returns_a_successful_response()
+    {
+        $this->auth();
+
+        $response = $this->withHeader('Authorization',
+            'Bearer '.$this->token)->postJson('/api/purchase/subscription/1');
+
+        $response->assertStatus(102);
+    }
+
     /**
      * Subscription listing test
      *
@@ -14,29 +31,23 @@ class SubscriptionTest extends TestCase
      */
     public function test_subscription_listing()
     {
-        $response = $this->getJson('/api/subscription');
+        $this->auth();
+
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->token)
+            ->getJson('/api/purchase/subscription');
 
         $response->assertStatus(200);
-        $response->assertExactJson(
+        $response->assertJsonStructure(
             [
-                'subscriptions' => [
-                    ['id' => 1, 'product' => ['id' => 1, 'name' => 'Humira subscription', 'price' => 4900], 'created_at' => '2022-03-31 15:00:00', 'next_due_date' => '2022-04-30 15:00:00'],
+                '*' => [
+                    'title',
+                    'price',
+                    'created_at',
+                    'updated_at',
+                    'expired_at'
                 ]
             ]
         );
     }
 
-    /**
-     * Customer registration test
-     *
-     * @return void
-     */
-    public function test_create_subscription_returns_a_successful_response()
-    {
-        $response = $this->postJson('/api/subscription', [
-            'product_id' => '1'
-        ]);
-
-        $response->assertStatus(204);
-    }
 }

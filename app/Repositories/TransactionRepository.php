@@ -13,6 +13,11 @@ class TransactionRepository
         return Transaction::create($data);
     }
 
+    public function getUserTransactions(int $uId): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return Transaction::where('user_id', $uId)->get();
+    }
+
     public function getPurchasedProductIds(int $uId, string $productType): Collection
     {
         return Transaction::where('user_id', $uId)

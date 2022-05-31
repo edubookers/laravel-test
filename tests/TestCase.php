@@ -12,12 +12,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Artisan::call('migrate');
-    }
-
-    protected function tearDown(): void
-    {
-        Artisan::call('migrate:reset');
-        parent::tearDown();
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
     }
 }

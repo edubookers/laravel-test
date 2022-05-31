@@ -43,6 +43,11 @@ class PurchaseService
         return $this->productRepository->getUserProds($uId);
     }
 
+    public function getUserTransactions(int $uId): Collection|array
+    {
+        return $this->transactionRepository->getUserTransactions($uId);
+    }
+
     public function purchaseSubscription(int $subId, int $uId): void
     {
         DB::transaction(function () use ($subId, $uId) {

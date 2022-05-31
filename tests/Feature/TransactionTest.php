@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Traits\WithAuth;
 use Tests\TestCase;
 
 class TransactionTest extends TestCase
 {
+    use WithAuth;
+
     /**
      * Transaction listing test
      *
@@ -14,14 +16,21 @@ class TransactionTest extends TestCase
      */
     public function test_transaction_listing()
     {
-        $response = $this->getJson('/api/transaction');
+        $this->auth();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->getJson('/api/purchase/transactions');
 
         $response->assertStatus(200);
-        $response->assertExactJson(
+        $response->assertJsonStructure(
             [
-                'transactions' => [
-                    ['id' => 1, 'amount' => 4900, 'status'=> 'failed', 'created_at' => '2022-05-15 15:00:00'],
-                    ['id' => 2, 'amount' => 4900, 'status'=> 'succeeded', 'created_at' => '2022-05-16 15:00:00'],
+                '*' => [
+                    'user_id',
+                    'specs',
+                    'product_type',
+                    'product_id',
+                    'created_at',
+                    'updated_at'
                 ]
             ]
         );

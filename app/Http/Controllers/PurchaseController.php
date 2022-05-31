@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetTransactionsRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SubscriptionResource;
+use App\Http\Resources\TransactionResource;
 use App\Services\PurchaseService;
 use Illuminate\Http\JsonResponse;
 
@@ -40,5 +42,12 @@ class PurchaseController
     {
         $this->purchaseService->purchaseSubscription($subscriptionId, auth()->id());
         return response()->json('Processing your request', 102);
+    }
+
+    public function getTransactions()
+    {
+        return response()->json(TransactionResource::collection(
+            $this->purchaseService->getUserTransactions(auth()->id())
+        ));
     }
 }

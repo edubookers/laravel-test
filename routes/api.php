@@ -25,6 +25,7 @@ Route::prefix('purchase')->middleware('auth:sanctum')->group(function () {
     Route::get('product', [PurchaseController::class, 'getProducts']);
     Route::post('subscription/{subscriptionId}', [PurchaseController::class, 'purchaseSubscription']);
     Route::post('product/{productId}', [PurchaseController::class, 'purchaseProduct']);
+    Route::get('transactions', [PurchaseController::class, 'getTransactions']);
 });
 
 Route::post('login', [LoginController::class, 'login']);
