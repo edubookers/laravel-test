@@ -11,6 +11,7 @@ use App\Repositories\ProductRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -58,7 +59,9 @@ class PurchaseService
                     'user_id' => $uId,
                     'product_type' => Subscription::class,
                     'product_id' => $subId,
-                    'specs' => json_encode(['active' => SubscriptionStatuses::ACTIVE])
+                    'specs' => json_encode([
+                        'active' => SubscriptionStatuses::ACTIVE,
+                    ])
                 ]);
             }
         });
@@ -78,5 +81,10 @@ class PurchaseService
                 ]);
             }
         });
+    }
+
+    public function getTransactionsForReSubscribe()
+    {
+        return $this->transactionRepository->getTransactionsForReSubscribe();
     }
 }

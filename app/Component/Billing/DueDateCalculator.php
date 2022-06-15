@@ -8,11 +8,18 @@ class DueDateCalculator implements DueDateInterface
 {
     public function periods(?Carbon $billingStartDate = null, ?Carbon $now = null): int
     {
-        throw new \Exception('Not implemented');
+        return $now->diffInMonths($billingStartDate);
     }
 
     public function nextDueDate(?Carbon $billingStartDate = null, ?Carbon $now = null): Carbon
     {
-        throw new \Exception('Not implemented');
+        $endOfMonth = $now->copy()->endOfMonth()->startOfDay();
+
+        if ($billingStartDate < $now && !$now->isSameMonth($billingStartDate) && $endOfMonth->eq($now)) {
+            return $now->addMonth()->endOfMonth();
+        }
+
+        return $now->endOfMonth();
     }
+
 }

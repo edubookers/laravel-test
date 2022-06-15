@@ -73,4 +73,8 @@ class Transaction extends Model
     {
         return $this->morphTo();
     }
+
+    public function subscription(){
+        return $this->belongsTo(Subscription::class,'product_id');
+    }
 }
