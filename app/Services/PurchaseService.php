@@ -34,6 +34,7 @@ class PurchaseService
         $this->userRepository = $userRepository;
     }
 
+    // @TODO Add dockblocks to all methods
     public function getUserSubscriptions(int $uId): \Illuminate\Support\Collection
     {
         return $this->subscriptionRepository->getUserSubs($uId);
@@ -49,38 +50,64 @@ class PurchaseService
         return $this->transactionRepository->getUserTransactions($uId);
     }
 
-    public function purchaseSubscription(int $subId, int $uId): void
+    /**
+     * Make subscription  purchase
+     *
+     * @param int $subId
+     * @param int $uId
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function purchaseSubscription(int $subId, int $uId)
     {
-        DB::transaction(function () use ($subId, $uId) {
-            $subscription = $this->subscriptionRepository->find($subId);
+        try {
+            DB::transaction(function () use ($subId, $uId) {
+                $subscription = $this->subscriptionRepository->find($subId);
 
-            if ($this->userRepository->decreaseBalance($uId, $subscription->price)) {
-                $this->transactionRepository->create([
-                    'user_id' => $uId,
-                    'product_type' => Subscription::class,
-                    'product_id' => $subId,
-                    'specs' => json_encode([
-                        'active' => SubscriptionStatuses::ACTIVE,
-                    ])
-                ]);
-            }
-        });
+                if ($this->userRepository->decreaseBalance($uId, $subscription->price)) {
+                    $this->transactionRepository->create([
+                        'user_id' => $uId,
+                        'product_type' => Subscription::class,
+                        'product_id' => $subId,
+                        'specs' => json_encode([
+                            'active' => SubscriptionStatuses::ACTIVE,
+                        ])
+                    ]);
+                }
+            });
+        } catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['type'=>'error','message' => $e->getMessage()]); // just a suggestion
+        }
+        DB::commit();
     }
 
+    /**
+     * Make product purchase
+     *
+     * @param int $productId
+     * @param int $uId
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function purchaseProduct(int $productId, int $uId)
     {
-        DB::transaction(function () use ($productId, $uId) {
-            $product = $this->productRepository->find($productId);
+        try {
+            DB::transaction(function () use ($productId, $uId) {
+                $product = $this->productRepository->find($productId);
 
-            if ($this->userRepository->decreaseBalance($uId, $product->price)) {
-                $this->transactionRepository->create([
-                    'user_id' => $uId,
-                    'product_type' => Product::class,
-                    'product_id' => $productId,
-                    'specs' => '{}'
-                ]);
-            }
-        });
+                if ($this->userRepository->decreaseBalance($uId, $product->price)) {
+                    $this->transactionRepository->create([
+                        'user_id' => $uId,
+                        'product_type' => Product::class,
+                        'product_id' => $productId,
+                        'specs' => '{}'
+                    ]);
+                }
+            });
+        }   catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['type'=>'error','message' => $e->getMessage()]);
+        }
+        DB::commit();
     }
 
     public function getTransactionsForReSubscribe()

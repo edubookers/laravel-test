@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Jobs\SubscriptionCheckOutJob;
+use \App\Services\PurchaseService;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +20,6 @@ Route::get('/', function () {
 });
 
 Route::get('/test',function(){
-    \App\Jobs\SubscriptionCheckOutJob::dispatch(app()->make(\App\Services\PurchaseService::class));
+    // here you can use the job class at the top and refer it here without the full namespace. Makes it cleaner. Same for the service
+    SubscriptionCheckOutJob::dispatch(app()->make(PurchaseService::class));
 });

@@ -58,7 +58,12 @@ class Transaction extends Model
         'specs'
     ];
 
-    /**
+    protected $cast = [
+        'date'=>'date',
+        'specs'=> 'object'
+    ];
+
+    /** @TODO Here the method's description is missing
      * @return BelongsTo
      */
     public function user(): BelongsTo
@@ -66,7 +71,7 @@ class Transaction extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
+    /** @TODO Description is missing
      * @return MorphTo
      */
     public function transactionable(): MorphTo
@@ -74,7 +79,8 @@ class Transaction extends Model
         return $this->morphTo();
     }
 
-    public function subscription(){
+    public function subscription(): BelongsTo // <add Belongs to as return type
+    {
         return $this->belongsTo(Subscription::class,'product_id');
     }
 }

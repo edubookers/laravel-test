@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class CustomerService
 {
+    /**
+     * @var CustomerRepository
+     */
     private CustomerRepository $customerRepository;
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(CustomerRepository $customerRepository) // after the interface is added $customerRepository could be of type CustomerRepositoryInterface
     {
         $this->customerRepository = $customerRepository;
     }

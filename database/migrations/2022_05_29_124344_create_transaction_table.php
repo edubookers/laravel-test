@@ -15,11 +15,15 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('product_type');
-            $table->foreignId('user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('product_id');
+            $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->jsonb('specs')->default('{}');
             $table->timestamps();
         });
+
+
     }
 
     /**

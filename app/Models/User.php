@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use \Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\User
@@ -55,7 +56,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'balance'
+        'balance' // cast balance to float ?
     ];
 
     /**
@@ -79,7 +80,12 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
     ];
 
-    public function transactions()
+    /**
+     * User's transactions.
+     *
+     * @return HasMany
+     */
+    public function transactions(): HasMany //@TODO Add dockblock
     {
         return $this->hasMany(Transaction::class);
     }

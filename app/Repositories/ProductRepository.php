@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductRepository
+class ProductRepository // @TODO it is better to implement an interface
 {
     private TransactionRepository $transactionRepository;
 

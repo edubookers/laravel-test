@@ -16,11 +16,16 @@ class TransactionRepository
         return Transaction::create($data);
     }
 
-    public function getUserTransactions(int $uId): \Illuminate\Database\Eloquent\Collection|array
+    /**
+     * @param int $uId
+     * @return mixed
+     */
+    public function getUserTransactions(int $uId): mixed
     {
         return Transaction::where('user_id', $uId)->get();
     }
 
+    // @TODO Missing dockblock
     public function getPurchasedProductIds(int $uId, string $productType): Collection
     {
         return Transaction::where('user_id', $uId)
@@ -30,7 +35,7 @@ class TransactionRepository
     public function getTransactionsForReSubscribe(): Collection
     {
         return Transaction::where('product_type', Subscription::class)
-            ->where('created_at', '<', now()->subDays(31)->endOfDay())
+            ->where('created_at', '<', now()->subDays(31)->endOfDay()) // should this be Carbon::now()->subdays()... ?
             ->where('specs->active', SubscriptionStatuses::ACTIVE)
             ->get()->load('subscription');
     }
