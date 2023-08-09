@@ -59,6 +59,7 @@ class PurchaseService
      */
     public function purchaseSubscription(int $subId, int $uId)
     {
+        // the is also the option to use  $this->beginTransaction();
         try {
             DB::transaction(function () use ($subId, $uId) {
                 $subscription = $this->subscriptionRepository->find($subId);
@@ -73,12 +74,12 @@ class PurchaseService
                         ])
                     ]);
                 }
+                DB::commit();
             });
-        } catch(\Exception $e){
+        } catch (\Throwable $e) {
             DB::rollback();
             return response()->json(['type'=>'error','message' => $e->getMessage()]); // just a suggestion
         }
-        DB::commit();
     }
 
     /**
@@ -103,11 +104,11 @@ class PurchaseService
                     ]);
                 }
             });
+            DB::commit();
         }   catch(\Exception $e){
             DB::rollback();
             return response()->json(['type'=>'error','message' => $e->getMessage()]);
         }
-        DB::commit();
     }
 
     public function getTransactionsForReSubscribe()
