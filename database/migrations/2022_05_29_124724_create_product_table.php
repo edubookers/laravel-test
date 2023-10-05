@@ -12,6 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
+        //@todo no product name
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->float('price');

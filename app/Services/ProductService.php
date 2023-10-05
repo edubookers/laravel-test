@@ -13,6 +13,7 @@ class ProductService
 {
     private ProductRepository $productRepository;
 
+     // @todo add comments and return type
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;

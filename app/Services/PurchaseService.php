@@ -49,6 +49,8 @@ class PurchaseService
         return $this->transactionRepository->getUserTransactions($uId);
     }
 
+    // @todo no logic to check if existing subscription is active of the same type
+
     public function purchaseSubscription(int $subId, int $uId): void
     {
         DB::transaction(function () use ($subId, $uId) {

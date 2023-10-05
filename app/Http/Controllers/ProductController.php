@@ -25,3 +25,4 @@ class ProductController extends Controller
         return response()->json('Server error', 500);
     }
 }
+//@todo activate deactivate not yet implemented

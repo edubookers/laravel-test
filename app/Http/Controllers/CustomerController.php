@@ -14,7 +14,7 @@ class CustomerController extends Controller
     {
         $this->customerService = $customerService;
     }
-
+// @todo add comments
     public function create(CreateCustomer $request): JsonResponse
     {
         if ($this->customerService->create($request->only(['email', 'first_name', 'last_name', 'password']))) {
