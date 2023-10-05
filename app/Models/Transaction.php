@@ -58,6 +58,10 @@ class Transaction extends Model
         'specs'
     ];
 
+    protected $cast = [
+        'specs' => 'array'
+    ];
+
     /**
      * @return BelongsTo
      */
@@ -78,3 +82,4 @@ class Transaction extends Model
         return $this->belongsTo(Subscription::class,'product_id');
     }
 }
+// @todo no field to specify if transaction is processed or not. status field needed

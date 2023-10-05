@@ -12,6 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
+        //no status field
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('product_type');

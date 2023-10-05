@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// 
 Route::post('customer', [CustomerController::class, 'create']);
 Route::get('product', [ProductController::class, 'get']);
 
+// @todo all the routes under this will be api/purchase/... requirements says/api/subscription
 Route::prefix('purchase')->middleware('auth:sanctum')->group(function () {
     Route::get('subscription', [PurchaseController::class, 'getSubscriptions']);
     Route::get('product', [PurchaseController::class, 'getProducts']);
